@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script >
+var url;
+var regex = new RegExp(".*[?]userID=([0-9]{1,3})");
+var results;
+var userid;
+$( document ).ready(function() {
+	url = window.location.href;
+	results = regex.exec(url);
+	 userid = results[1];
+	 console.log(userid)
+    console.log( "ready!" );
+    
+    
+});
+function createsite(){
+	var createsitename;
+	var csn = $("#createsitename");
+	createsitename = csn.val();     
+	var csm = 'http://localhost:8080/WebsiteBuilder/CreateSiteManager?sitename='+createsitename+'&userID='+userid;
+	$.ajax({url: csm,
+		method:'get',
+		dataType:"json",
+		data: {
+			"createsitename": createsitename
+			},
+			success:function(data){
+				console.log(data);
+				window.open("https://localhost:8080/WebsiteBuilder/createsite.html?sitename="+createsitename+"&userID="+userid);
+			},
+		error:function(w,x,y,z){
+			console.log(w);
+			console.log(x);
+			console.log(y);
+			console.log(z);
+			alert('error!') 
+		}
+		})		 
+}
+function updatesite(){
+	var currentsitename; 
+	var newsitename; 
+	var csn = $("#currentsitename");
+	var nsn = $("#newsitename");
+	/* $('#updateform').click(function(){ */     
+		currentsitename = csn.val();     
+		newsitename = nsn.val();     
+	  /*   alert(createsitename+"\n "+newsite);
+	}); */
+	var usm = 'http://localhost:8080/WebsiteBuilder/UpdateSiteManager?currentsitename='+currentsitename+'&newsitename='+newsitename+'&userID='+userid;
+	$.ajax({url: usm,
+		method:'get',
+		dataType:"json",
+		data: {
+			"currentsitename": currentsitename
+			},
+			success:function(data){
+				console.log(data);
+				window.open("https://localhost:8080/WebsiteBuilder/updatesite.html?sitename="+newsitename+"&userID="+userid);
+			},
+		error:function(w,x,y,z){
+			console.log(w);
+			console.log(x);
+			console.log(y);
+			console.log(z);
+			alert('error!')
+		}
+		})		 
+}
+function deletesite(){
+	var deletesitename;
+	var dsn = $("#deletesitename");
+	/* $('#deleteform').click(function(){      */
+		deletesitename 	= dsn.val();     
+	    /* alert(deletesitename);
+	}); */
+	var ds = 'http://localhost:8080/WebsiteBuilder/DeleteSiteManager?sitename='+deletesitename+'&userID='+userid;
+	$.ajax({url: ds,
+		method:'get',
+		dataType:"json",
+		data: {
+			"deletesitename": deletesitename
+			},
+			success:function(data){
+				console.log(data);
+				window.open("main.html?userID=" + userid);
+			},
+		error:function(w,x,y,z){
+			console.log(w);
+			console.log(x);
+			console.log(y);
+			console.log(z);
+			alert('error!')
+		}
+		})		 
+}
+</script>
+<title>Website Builder</title>
+</head>
+<body>
+<div id="sitelist">
+<h2>Sites</h2>
+<ul id="ulList"></ul>
+</div>
+<div id="siteoptions">
+
+		<form method="post" onsubmit="false" id="createform">
+			<label>New Site Name:</label> <input type="text" name="createsitename" id="createsitename" />
+					<input type="submit" value="Create Site" onclick="createsite()"/>	
+		</form>
+		<form method="post"  onsubmit="false" id="updateform">
+			<label>Current Site:</label> <input type="text"
+				name="currentsitename" id="currentsitename"/> <label>New Site Name(if you don't want to change the name, then use the current name):</label> <input type="text"
+				name="newsitename" id="newsitename"/> <input type="submit"
+				value="UpdateSite" onclick="updatesite()" />
+		</form>
+		<form method="post"  onsubmit="false" id="deleteform">
+			<label>Site Name:</label> <input type="text" name="deletesitename" id="deletesitename"/> <input
+				type="submit" value="Delete Site" onclick="deletesite()"/>
+		</form>
+	</div>
+
+</body>
+</html>	

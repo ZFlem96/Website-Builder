@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+function registeruser(){
+	var username;
+	var password;
+	var retypepassword;
+	$('#registerform').click(function(){     
+		username = $("#username").val(); 
+		password = $("#password").val();
+		retypepassword = $("#retype_password").val();
+	    alert(username+"\n"+password+"\n"+retypepassword);
+	}); 
+	$.ajax({
+		url: 'http://localhost:8080/WebsiteBuilder/registeruser?='+username+'&password='+password+'&retype_password'+retypepassword,
+		method:'post',
+		dataType:"json",
+		data: {
+			"username": username,
+			"password": password,
+			"retype_password":retypepassword
+		},
+		success:function(){
+			console.log(data);
+			window.open("https://localhost:8080/WebsiteBuilder/index.html");
+		},
+		error:function(){
+			alert('error!')
+		}
+	})
+}
+
+</script>
+
+<title>Website Builder: Register</title>
+</head>
+<body>
+<div id="register">
+		<h2>Register new user</h2>
+		<form method="post" action="registeruser" onsubmit="false" id="registerform">
+			<div>
+				<label>Username:</label> <input type="text" name="username" />
+			</div>
+			<div>
+				<label>Password:</label> <input type="password" name="password" />
+			</div>
+			<div>
+				<label>Retype Password:</label> <input type="password"
+					name="retype_password" />
+			</div>
+			<div>
+				<input type="submit" value="registeruser" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>

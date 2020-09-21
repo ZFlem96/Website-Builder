@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script >
+function doLogin(){
+	var username;
+	var password;
+	$('#loginform').click(function(){     
+		username = $("#username").val(); 
+		password = $("#password").val();
+	    alert(username+"\n"+password);
+	}); 
+	var URL = "http://localhost:8080/WebsiteBuilder/login?username="+username+"&password="+password;
+	$.ajax({url: URL,
+		method:'post',
+		dataType:"json",
+		data: {
+			"username": username,
+			"password": password
+			},
+			success:function(data){
+				console.log(data);
+				/* window.open("https://localhost:8080/WebsiteBuilder/main"); */
+			},
+		error:function(){
+			alert('error!')
+		}
+		})		 
+}
+</script>
+<title>Website Builder: Login</title>
+</head>
+<body>
+<div id="login">
+<h2>Login</h2>
+<form method="post" action="login" onsubmit="false" id="loginform">
+	<div>
+		<label>Username:</label> <input type="text" name="username" />
+	</div>
+	<div>
+		<label>Password:</label> <input type="password" name="password" />
+	</div>
+	<div>
+		<input type="submit" value="Login"/> <!-- onclick="doLogin()" -->
+	</div>
+</form>
+<a href="register.html">Register a new user</a>
+</div>
+
+</body>
+</html>
